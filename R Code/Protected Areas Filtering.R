@@ -76,7 +76,7 @@ ggplot() +
   geom_sf(data = data_sf, fill = "grey85") +
   geom_sf(data = cropped_filtered, aes(fill = NAME_E), show.legend = FALSE) +   # hides legend
   theme_minimal() +
-  ggtitle("Protected Areas: All Data") +
+  ggtitle("Protected Areas: Some Filtering") +
   scale_fill_viridis_d(
     option = "B"
   ) +
@@ -94,10 +94,11 @@ ggplot() +
   geom_sf(data = data_sf, fill = "grey85") +
   geom_sf(data = selected, aes(fill = NAME_E), show.legend = FALSE) +   # hides legend
   theme_minimal() +
-  ggtitle("Protected Areas: All Data") +
+  ggtitle("Protected Areas: > 10,000 HA") +
   scale_fill_viridis_d(
     option = "B"
   ) +
   scale_x_continuous(breaks = seq(-122, -110, by = 1)) +  # every 5 on x-axis
   scale_y_continuous(breaks = seq(50, 54, by = 1)) 
+
 
