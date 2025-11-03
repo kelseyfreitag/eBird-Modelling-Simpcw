@@ -43,6 +43,9 @@ This includes:
   - `R Code/` – all R scripts and analyses
   - `Spatial Data/` – spatial files  
   - `Outputs/` – smaller processed results
+ - The final summarized files are:
+   - `Outputs/simpcw_checklists_final_all.csv` - summarized file for Simpcw Territory
+   - `Outputs/protected_areas_checklists_final_all` - summarized file for within and outside Protected Areas
 
 ---
 
