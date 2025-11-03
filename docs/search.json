@@ -1,0 +1,352 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "eBird Project",
+    "section": "",
+    "text": "0.1 Introduction\nThis website documents the workflow for filtering protected areas and mapping eBird checklist and trend data within Simpcw Territory. Use the navigation panel on the left to explore the following sections:",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#introduction",
+    "href": "index.html#introduction",
+    "title": "eBird Project",
+    "section": "",
+    "text": "Protected Areas Filtering\neBird Data Handling\nChecklist Data Mapping\nTrend Data Mapping",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#resources",
+    "href": "index.html#resources",
+    "title": "eBird Project",
+    "section": "0.2 Resources",
+    "text": "0.2 Resources\n\nData\nCode\nFigures\nOutputs\nLarge Data Files",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#species-overview",
+    "href": "index.html#species-overview",
+    "title": "eBird Project",
+    "section": "0.3 Species Overview",
+    "text": "0.3 Species Overview\n\n0.3.1 Checklist and Trend Data Availability\nGreen-highlighted species had sufficient checklist coverage. Red-highlighted species had insufficient data for checklist mapping.\nAll species are provided regardless of data quality, in case they are useful for interpretation or future work.\n\nAmerican Crow — Checklist + trend data\nBald Eagle — Checklist + trend data\nBlack-capped Chickadee — Checklist + trend data\nBlack-chinned Hummingbird — Insufficient checklist & trend data (out of range)\nCommon Raven — Checklist + trend data\nCommon Loon — Checklist; no trend data (only overwintering trend data available, Common Loons do not overwinter in this area)\nGolden Eagle — Insufficient checklist data; trend data available\nGreat Horned Owl — Insufficient checklist data; trend data available\nMarsh Wren — Checklist + trend data\nMountain Chickadee — Checklist + trend data\nNorthern Flicker — Checklist + trend data\nNorthern House Wren — Insufficient checklist + no trend data (recent taxonomic split)\nNorthern Pygmy-Owl — Insufficient checklist data; trend data available\nPacific Wren — Checklist + trend data\nPileated Woodpecker — Checklist + trend data\nRed-breasted Sapsucker — Insufficient checklist & trend data (out of range)\nRed-naped Sapsucker — Checklist + trend data\nRock Wren — Insufficient checklist & trend data (out of range)\nRufous Hummingbird — Checklist + trend data\nSteller’s Jay — Checklist + trend data\nWestern Meadowlark — Insufficient checklist data; trend data available",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
+    ]
+  },
+  {
+    "objectID": "Protected_Areas.html",
+    "href": "Protected_Areas.html",
+    "title": "2  Protected Areas Filtering",
+    "section": "",
+    "text": "2.1 Protected Areas Database\nData was obtained from the Canadian Protected and Conserved Areas Database (CPCAD).\nImportant Note: This data included Old Growth Managment Areas and Wildlife Habitat Areas. As these are not proper protected areas, I removed them from analysis. These areas took up most of Simpcw Territory and did not leave much for areas outside of protected areas. As the focus was on parks, removing these provided a more fair analysis of protected areas within Simpcw territory.\nThe maps below show three versions of the protected areas data to illustrate the impact of this filtering.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Protected Areas Filtering</span>"
+    ]
+  },
+  {
+    "objectID": "Protected_Areas.html#data-inputs",
+    "href": "Protected_Areas.html#data-inputs",
+    "title": "2  Protected Areas Filtering",
+    "section": "2.2 Data inputs",
+    "text": "2.2 Data inputs\n\nProtected Area Data: ProtectedConservedArea_2024.gdb using the layer ProtectedConservedArea_2024\nSimpcw Territory Boundary: doc.kml",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Protected Areas Filtering</span>"
+    ]
+  },
+  {
+    "objectID": "Protected_Areas.html#setup",
+    "href": "Protected_Areas.html#setup",
+    "title": "2  Protected Areas Filtering",
+    "section": "2.3 Setup",
+    "text": "2.3 Setup\n\nlibrary(tidyverse)\nlibrary(sf)\nlibrary(rnaturalearth)\nlibrary(tibble)\nlibrary(knitr)\n\n# Unzip Simpcw territory boundary\nzip_file &lt;- normalizePath(\"Spatial Data/SFN_TT.kmz\")\nunzip(zip_file, exdir = \"Outputs/\")\n\n# Load Simpcw territory boundary\ndata_sf &lt;- st_read(\"Spatial Data/doc.kml\") \n\nReading layer `SFN_TT' from data source `E:\\Matt and Mia\\Spatial Data\\doc.kml' using driver `KML'\nSimple feature collection with 1 feature and 2 fields\nGeometry type: POLYGON\nDimension:     XYZ\nBounding box:  xmin: -121.0515 ymin: 50.90655 xmax: -117.6642 ymax: 54.2691\nz_range:       zmin: 0 zmax: 0\nGeodetic CRS:  WGS 84\n\n# Read in protected and conserved area data\ndata &lt;- st_read(\"Spatial Data/ProtectedConservedArea_2024/ProtectedConservedArea_2024.gdb\", layer=\"ProtectedConservedArea_2024\") %&gt;%\n  st_transform(st_crs(data_sf))\n\nReading layer `ProtectedConservedArea_2024' from data source \n  `E:\\Matt and Mia\\Spatial Data\\ProtectedConservedArea_2024\\ProtectedConservedArea_2024.gdb' \n  using driver `OpenFileGDB'\n\n\nSimple feature collection with 20430 features and 36 fields\nGeometry type: GEOMETRY\nDimension:     XY\nBounding box:  xmin: -2652801 ymin: 293896.6 xmax: 3379443 ymax: 5056862\nProjected CRS: Canada_Albers_Equal_Area_Conic",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Protected Areas Filtering</span>"
+    ]
+  },
+  {
+    "objectID": "Protected_Areas.html#filtering-and-cleaning-workflow",
+    "href": "Protected_Areas.html#filtering-and-cleaning-workflow",
+    "title": "2  Protected Areas Filtering",
+    "section": "2.4 Filtering and cleaning workflow",
+    "text": "2.4 Filtering and cleaning workflow\nProtected areas were filtered to include only:\n\nAreas in BC and AB\nFederal, Provincial, Municipal, and Indigenous protected areas\n\n\n# Filter for AB and BC\n# Filter Federal, Provincial, Municipal, and Indigenous protected areas\ndata_filtered &lt;- data %&gt;% \n  filter(LOC == \"1\" | LOC == \"2\") %&gt;% \n  filter(OWNER_TYPE == \"1\" | OWNER_TYPE == \"2\" | OWNER_TYPE == \"3\" | OWNER_TYPE == \"4\")\n\n# Crop protected areas to Simpcw territory\ncropped_data &lt;- st_intersection(data_filtered, data_sf) %&gt;%\n  select(NAME_E, OWNER_E, GOV_TYPE, O_AREA_HA, Shape_Area)\n\n# Save\nst_write(cropped_data, \"Outputs/cropped_all.gpkg\")",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Protected Areas Filtering</span>"
+    ]
+  },
+  {
+    "objectID": "Protected_Areas.html#visualization-of-different-levels-of-filtering",
+    "href": "Protected_Areas.html#visualization-of-different-levels-of-filtering",
+    "title": "2  Protected Areas Filtering",
+    "section": "2.5 Visualization of different levels of filtering",
+    "text": "2.5 Visualization of different levels of filtering\n\n# Load data and make valid\ncropped_data &lt;- st_read(\"Outputs/cropped_all.gpkg\") %&gt;% \n  st_make_valid()\n\nReading layer `cropped_all' from data source \n  `E:\\Matt and Mia\\Outputs\\cropped_all.gpkg' using driver `GPKG'\nSimple feature collection with 65 features and 5 fields\nGeometry type: MULTIPOLYGON\nDimension:     XY\nBounding box:  xmin: -1684017 ymin: 1494777 xmax: -1429148 ymax: 1856355\nProjected CRS: Canada_Albers_Equal_Area_Conic\n\n\n1) Unfiltered Data (Includes Old Growth & Wildlife Habitat Areas)\nThis dataset includes Old Growth Management Areas and Wildlife Habitat Areas. These are not formal protected areas and cover much of Simpcw Territory, which would skew analyses of how bird observations fall inside vs. outside protected areas. Therefore, these two area types were removed for the primary analysis.\n\n# Plot with no filters applied \nggplot() +\n  geom_sf(data = data_sf, fill = \"grey85\") +\n  geom_sf(data = cropped_data, aes(fill = NAME_E), show.legend = FALSE) +   # hides legend\n  theme_minimal() +\n  ggtitle(\"Protected Areas: All Data\") +\n  scale_fill_viridis_d(\n    option = \"B\"\n    ) +\n  scale_x_continuous(breaks = seq(-122, -110, by = 1)) +  # every 5 on x-axis\n  scale_y_continuous(breaks = seq(50, 54, by = 1)) \n\n\n\n\n\n\n\nkable(matrix(unique(cropped_data$NAME_E), ncol = 3, byrow = TRUE), col.names = NULL,\ncaption = \"All Protected Areas Within Simpcw Territory\")\n\n\nAll Protected Areas Within Simpcw Territory\n\n\n\n\n\n\n\nKakwa Wildland Provincial Park\nWillmore Wilderness Park\nRock Lake - Solomon Creek Wildland Provincial Park\n\n\nSulphur Gates Provincial Recreation Area\nMOUNT ROBSON PARK\nWELLS GRAY PARK\n\n\nHAMBER PARK\nBRIDGE LAKE PARK\nBOWRON LAKE PARK\n\n\nNORTH THOMPSON RIVER PARK\nMOUNT TERRY FOX PARK\nKAKWA PARK\n\n\nREARGUARD FALLS PARK\nCLOSE-TO-THE-EDGE PARK\nERG MOUNTAIN PARK\n\n\nSMALL RIVER CAVES PARK\nUPPER SEYMOUR RIVER PARK\nMOUNT ROBSON CORRIDOR PROTECTED AREA\n\n\nQUESNEL LAKE PARK\nCRANBERRY MARSH/STARRATT WILDLIFE MANAGEMENT AREA\nSUNBEAM CREEK ECOLOGICAL RESERVE\n\n\nGOOSEGRASS CREEK ECOLOGICAL RESERVE\nFINN CREEK PROTECTED AREA\nCUMMINS RIVER PROTECTED AREA\n\n\nPTARMIGAN PROTECTED AREA\nWEST TWIN PROTECTED AREA\nMOUNT ROBSON PROTECTED AREA\n\n\nKAKWA PROTECTED AREA\nADAMS LAKE MARINE PARK\nFINN CREEK PARK\n\n\nCHU CHUA COTTONWOOD PARK\nPTARMIGAN CREEK PARK\nWEST TWIN PARK\n\n\nBONAPARTE PARK\nDUNN PEAK PARK\nCARIBOO MOUNTAINS PARK\n\n\nCUMMINS LAKES PARK\nHIGH LAKES BASIN PARK\nEMAR LAKES PARK\n\n\nMOMICH LAKES PARK\nPORCUPINE MEADOWS PARK\nTAWEEL PARK\n\n\nUPPER ADAMS RIVER PARK\nBLUE RIVER BLACK SPRUCE PARK\nBLUE RIVER PINE PARK\n\n\nCALIGATA LAKE PARK\nEAKIN CREEK CANYON PARK\nEAKIN CREEK FLOODPLAIN PARK\n\n\nHARBOUR-DUDGEON LAKES PARK\nMUD LAKE DELTA PARK\nNORTH THOMPSON ISLANDS PARK\n\n\nNORTH THOMPSON OXBOWS EAST PARK\nNORTH THOMPSON OXBOWS MANTEAU PARK\nOREGANA CREEK PARK\n\n\nPYRAMID CREEK FALLS PARK\nTSINTSUNKO LAKES PARK\nWIRE CACHE PARK\n\n\nFOSTER ARM PROTECTED AREA\nHOLLIDAY CREEK ARCH PROTECTED AREA\nJACKMAN FLATS PARK\n\n\nLOWER RAUSH PROTECTED AREA\nUPPER RAUSH PROTECTED AREA\nOld Growth Management Areas (Mapped Legal)\n\n\nWildlife Habitat Areas\nJasper National Park Of Canada\nKakwa Wildland Provincial Park\n\n\n\n\n\n2) Filtered Data (Used in Analysis)\nOld Growth Management Areas and Wildlife Habitat Areas removed. Same table as above minus these two areas.\n\n# Set names to remove and remove\nexcluded_names &lt;- c(\"Old Growth Management Areas (Mapped Legal)\", \n                    \"Wildlife Habitat Areas\")\n\ncropped_filtered &lt;- cropped_data %&gt;%\n  filter(!(NAME_E %in% excluded_names))\n\n# Make valid\ncropped_filtered &lt;- st_make_valid(cropped_filtered)\n\n# Save\noutput_path &lt;- \"Outputs/cropped.gpkg\"\n\nif (!file.exists(output_path)) {\n  st_write(cropped_filtered, output_path)\n  message(\"File written to: \", output_path)\n} else {\n  message(\"File already exists. Not overwriting: \", output_path)\n}\n\n# Plot with some filters applied \nggplot() +\n  geom_sf(data = data_sf, fill = \"grey85\") +\n  geom_sf(data = cropped_filtered, aes(fill = NAME_E), show.legend = FALSE) +   # hides legend\n  theme_minimal() +\n  ggtitle(\"Protected Areas: Some Filtering\") +\n  scale_fill_viridis_d(\n    option = \"B\"\n  ) +\n  scale_x_continuous(breaks = seq(-122, -110, by = 1)) +  # every 5 on x-axis\n  scale_y_continuous(breaks = seq(50, 54, by = 1)) \n\n\n\n\n\n\n\n\n3) Filtered + Size Threshold (&gt;10,000 ha / 100 km²)\nThis version excludes very small protected areas. Not used in final analysis, shown only for reference.\n\n# Filter area to be greater than 10000 HA\nselected &lt;- cropped_filtered %&gt;% \n  filter(O_AREA_HA &gt; 10000)\n\n# Plot with some filters applied \nggplot() +\n  geom_sf(data = data_sf, fill = \"grey85\") +\n  geom_sf(data = selected, aes(fill = NAME_E), show.legend = FALSE) +   # hides legend\n  theme_minimal() +\n  ggtitle(\"Protected Areas: &gt;10,000 ha\") +\n  scale_fill_viridis_d(\n    option = \"B\"\n  ) +\n  scale_x_continuous(breaks = seq(-122, -110, by = 1)) +  # every 5 on x-axis\n  scale_y_continuous(breaks = seq(50, 54, by = 1)) \n\n\n\n\n\n\n\n\n\n\n\nList of Protected Areas &gt;10,000 HA\n\n\n\n\n\n\n\nKakwa Wildland Provincial Park\nWillmore Wilderness Park\nRock Lake - Solomon Creek Wildland Provincial Park\n\n\nMOUNT ROBSON PARK\nWELLS GRAY PARK\nHAMBER PARK\n\n\nBOWRON LAKE PARK\nKAKWA PARK\nUPPER SEYMOUR RIVER PARK\n\n\nWEST TWIN PARK\nBONAPARTE PARK\nDUNN PEAK PARK\n\n\nCARIBOO MOUNTAINS PARK\nCUMMINS LAKES PARK\nJasper National Park Of Canada",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Protected Areas Filtering</span>"
+    ]
+  },
+  {
+    "objectID": "Protected_Areas.html#outputs",
+    "href": "Protected_Areas.html#outputs",
+    "title": "2  Protected Areas Filtering",
+    "section": "2.6 Outputs",
+    "text": "2.6 Outputs\n\nUnfiltered Protected Areas: cropped_all.gpkg\nFiltered Protected Areas: cropped.gpkg",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Protected Areas Filtering</span>"
+    ]
+  },
+  {
+    "objectID": "eBird_Introduction.html",
+    "href": "eBird_Introduction.html",
+    "title": "3  eBird Data Handling",
+    "section": "",
+    "text": "3.1 Introduction to eBird downloads\neBird offers multiple data download options, but data permissions are required.\nNote: For checklist data, you must also download the sampling data. Permissions can take several days. Once approved, you can download the full dataset or filter for specific species/regions. For this project, the full Canadian dataset was downloaded and then filtered for target species.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>eBird Data Handling</span>"
+    ]
+  },
+  {
+    "objectID": "eBird_Introduction.html#introduction-to-ebird-downloads",
+    "href": "eBird_Introduction.html#introduction-to-ebird-downloads",
+    "title": "3  eBird Data Handling",
+    "section": "",
+    "text": "For trend data, you can download here.\nFor checklist data, you can download here.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>eBird Data Handling</span>"
+    ]
+  },
+  {
+    "objectID": "eBird_Introduction.html#data-inputs",
+    "href": "eBird_Introduction.html#data-inputs",
+    "title": "3  eBird Data Handling",
+    "section": "3.2 Data inputs",
+    "text": "3.2 Data inputs\n\nEBD Data: ebd_CA_relAug-2025_FIXED.txt\nSampling Data: ebd_CA_relAug-2025_sampling_FIXED.txt\nSimpcw Territory Map: doc.kml\nProtected Areas: cropped.gpkg\n\nImportant Note: Raw eBird data uses PROTOCOL_NAME. auk requires PROTOCOL_TYPE. The corrected files (*_FIXED) have been prepared; note this if downloading fresh data.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>eBird Data Handling</span>"
+    ]
+  },
+  {
+    "objectID": "eBird_Introduction.html#setup",
+    "href": "eBird_Introduction.html#setup",
+    "title": "3  eBird Data Handling",
+    "section": "3.3 Setup",
+    "text": "3.3 Setup\n\nlibrary(auk)\nlibrary(lubridate)\nlibrary(sf)\nlibrary(gridExtra)\nlibrary(tidyverse)\nlibrary(assertr)\nlibrary(here)\n\n# Resolve namespace conflicts\nselect &lt;- dplyr::select\n\n# Set file locations and names for output\nf_ebd &lt;- \"Outputs/Final/ebd_simpcw_final_all.txt\"\nf_sed &lt;- \"Outputs/Final/sed_simpcw_final_all.txt\"\n\n# Load Simpcw territory .kml in\ndata_sf &lt;- st_read(\"Spatial Data/doc.kml\")\n\nReading layer `SFN_TT' from data source `E:\\Matt and Mia\\Spatial Data\\doc.kml' using driver `KML'\nSimple feature collection with 1 feature and 2 fields\nGeometry type: POLYGON\nDimension:     XYZ\nBounding box:  xmin: -121.0515 ymin: 50.90655 xmax: -117.6642 ymax: 54.2691\nz_range:       zmin: 0 zmax: 0\nGeodetic CRS:  WGS 84",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>eBird Data Handling</span>"
+    ]
+  },
+  {
+    "objectID": "eBird_Introduction.html#sanity-check-species-names",
+    "href": "eBird_Introduction.html#sanity-check-species-names",
+    "title": "3  eBird Data Handling",
+    "section": "3.4 Sanity Check: Species Names",
+    "text": "3.4 Sanity Check: Species Names\nVerify that species names match the eBird 2025 taxonomy.\n\n# Set taxonomy version (2025)\ntax &lt;- get_ebird_taxonomy(version = 2025)\n\n# List species\nspecies &lt;- c(\n  \"American Crow\", \"Bald Eagle\", \"Black-capped Chickadee\", \"Common Raven\",\n  \"Golden Eagle\", \"Great Horned Owl\", \"Mountain Chickadee\", \"Rufous Hummingbird\",\n  \"Steller's Jay\", \"Western Meadowlark\", \"Common Loon\", \"Black-chinned Hummingbird\",\n  \"Northern Pygmy-Owl\", \"Western Screech-Owl\", \"Northern Flicker\", \"Red-naped Sapsucker\",\n  \"Pileated Woodpecker\",\"Red-breasted Sapsucker\", \"Pacific Wren\",\n  \"Marsh Wren\", \"Northern House Wren\", \"Bewick's Wren\", \"Rock Wren\"\n  )\n\n# Check for any mismatches\nspecies[!species %in% tax$common_name]\n\ncharacter(0)",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>eBird Data Handling</span>"
+    ]
+  },
+  {
+    "objectID": "eBird_Introduction.html#ebird-data-filtering",
+    "href": "eBird_Introduction.html#ebird-data-filtering",
+    "title": "3  eBird Data Handling",
+    "section": "3.5 eBird data filtering",
+    "text": "3.5 eBird data filtering\nWe use eBird Best Practices. This includes:\n\nKeep only stationary or traveling checklists, omitting incidental checklists\nKeep checklists less than 5km travelled\nKeep checklists that are less than 5 hours\n\nWe also further filtered for:\n\nChecklists between 2010 and 2025\nChecklists between May 1st and July 31st\n\n\n# Set file locations\nebd &lt;- auk_ebd(\n  file = here(\"Data/Raw/ebd_CA_smp_relAug-2025/ebd_CA_relAug-2025_FIXED.txt\"),\n  file_sampling = here(\"Data/Raw/ebd_CA_smp_relAug-2025/ebd_CA_relAug-2025_sampling_FIXED.txt\")\n)\n\n# Run filters\nebd_filters &lt;- ebd %&gt;% \n  \n  # Target species\n  auk_species(c(\"American Crow\", \"Bald Eagle\", \"Black-capped Chickadee\", \"Common Raven\", \n                \"Golden Eagle\", \"Great Horned Owl\", \"Mountain Chickadee\", \"Rufous Hummingbird\",\n                \"Steller's Jay\", \"Western Meadowlark\", \"Common Loon\",\n                \"Black-chinned Hummingbird\",\n                \"Northern Pygmy-Owl\",\n                \"Western Screech-Owl\", \"Northern Flicker\", \"Red-naped Sapsucker\",\"Pileated Woodpecker\",\n                \"Red-breasted Sapsucker\", \"Pacific Wren\", \"Marsh Wren\", \"Northern House Wren\",\n                \"Bewick's Wren\", \"Rock Wren\"\n                ), taxonomy_version=2025) %&gt;% \n\n  # Keep only standard protocols (Best Practices)\n  auk_protocol(protocol = c(\"Stationary\", \"Traveling\")) %&gt;%\n  \n  # Restrict to suggested limits (Best Practices)\n  auk_duration(c(0, 60*5)) %&gt;%\n  auk_distance(distance = c(0, 5)) %&gt;%\n  \n  # Complete data (for getting a proxy of effort)\n  auk_complete() %&gt;%\n  \n  # Date filters\n  auk_date(date = c(\"*-05-01\", \"*-07-31\")) %&gt;%\n  \n  # Year filters (only applicable to sampling checklists) %&gt;%\n  auk_year(year = 2010:2025) %&gt;%\n  \n  # Spatial filters - Limit to BCR selection\n  auk_bbox(st_bbox(st_transform(data_sf, crs = 4326))) %&gt;% # bbox must be GPS lat/lon (4326)\n  \n # Write\n  if(!file.exists(\"Outputs/Final/ebd_simpcw_final_all.txt\")) {\n  auk_filter(f_ebd, f_sed, overwrite = TRUE)\n  }",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>eBird Data Handling</span>"
+    ]
+  },
+  {
+    "objectID": "eBird_Introduction.html#zero-filling-data",
+    "href": "eBird_Introduction.html#zero-filling-data",
+    "title": "3  eBird Data Handling",
+    "section": "3.6 Zero-Filling Data",
+    "text": "3.6 Zero-Filling Data\nEnsure complete checklists are included as zero counts.\n\n# Load in and convert NA distances to 0 for obs and sampling data\nsampling &lt;- read_sampling(\"Final/Outputs/sed_simpcw_final_all.txt\") %&gt;%\n  mutate(effort_distance_km = replace_na(effort_distance_km, 0))\n\nobs &lt;- read_ebd(\"Final/Outputs/ebd_simpcw_final_all.txt\") %&gt;%\n  mutate(effort_distance_km = replace_na(effort_distance_km, 0))\n\n# Zero fill data and keep relevant columns\ntax &lt;- get_ebird_taxonomy(version = 2025)\n\nfull &lt;- auk_zerofill(obs, sampling_events = sampling, collapse = TRUE) %&gt;%\n  mutate(\n    year = year(observation_date),\n    month = month(observation_date)\n  ) %&gt;%\n  assert(within_bounds(0, 5), effort_distance_km) %&gt;%\n  assert(within_bounds(2010, 2025), year) %&gt;%\n  assert(within_bounds(5, 7), month) %&gt;%\n  left_join(tax %&gt;% select(scientific_name, common_name), by = \"scientific_name\") %&gt;%\n  select(\n    year, observation_date, checklist_id,\n    observation_count, species_observed,\n    latitude, longitude,\n    scientific_name, common_name\n  )\n\n# Save filtered data\nwrite_csv(full, \"full_simpcw_final_all.csv\")\n\nPeak at what the data looks like.\n\nfull |&gt; \n  slice(1:10)\n\n# A tibble: 10 × 9\n    year observation_date checklist_id observation_count species_observed\n   &lt;dbl&gt; &lt;date&gt;           &lt;chr&gt;        &lt;chr&gt;             &lt;lgl&gt;           \n 1  2022 2022-05-10       S109589697   0                 FALSE           \n 2  2022 2022-05-10       S109589697   0                 FALSE           \n 3  2022 2022-05-10       S109589697   0                 FALSE           \n 4  2022 2022-05-10       S109589697   0                 FALSE           \n 5  2022 2022-05-10       S109589697   0                 FALSE           \n 6  2022 2022-05-10       S109589697   0                 FALSE           \n 7  2022 2022-05-10       S109589697   1                 TRUE            \n 8  2022 2022-05-10       S109589697   0                 FALSE           \n 9  2022 2022-05-10       S109589697   0                 FALSE           \n10  2022 2022-05-10       S109589697   0                 FALSE           \n# ℹ 4 more variables: latitude &lt;dbl&gt;, longitude &lt;dbl&gt;, scientific_name &lt;chr&gt;,\n#   common_name &lt;chr&gt;",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>eBird Data Handling</span>"
+    ]
+  },
+  {
+    "objectID": "eBird_Introduction.html#transform-to-spatial-data",
+    "href": "eBird_Introduction.html#transform-to-spatial-data",
+    "title": "3  eBird Data Handling",
+    "section": "3.7 Transform to Spatial Data",
+    "text": "3.7 Transform to Spatial Data\n\n# Transform into sf data\nfull_sf &lt;- full %&gt;%\n  st_as_sf(coords = c(\"longitude\", \"latitude\"), crs = 4326) %&gt;%\n  st_transform(st_crs(data_sf))  \n\nWhen we filtered the data earlier, we used the territory bounding box to get data in and around Simpcw territory. This now filters to data within the Simpcw polygon specifically.\n\n# Get species within Simpcw\nfull_sf &lt;- full_sf %&gt;%\n  mutate(in_territory = st_within(geometry, data_sf, sparse = FALSE)[, 1]) %&gt;%\n  filter(in_territory) \n\nst_as_s2(): dropping Z and/or M coordinate",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>eBird Data Handling</span>"
+    ]
+  },
+  {
+    "objectID": "eBird_Introduction.html#summarize-by-simpcw-territory-and-protected-areas",
+    "href": "eBird_Introduction.html#summarize-by-simpcw-territory-and-protected-areas",
+    "title": "3  eBird Data Handling",
+    "section": "3.8 Summarize by Simpcw Territory and Protected Areas",
+    "text": "3.8 Summarize by Simpcw Territory and Protected Areas\n\n# Get summary per year per species of checklists with and without\nsummary_df &lt;- full_sf %&gt;%\n  st_drop_geometry() %&gt;%\n  group_by(common_name, year) %&gt;%\n  summarize(\n    total_checklists = n_distinct(checklist_id),\n    checklists_with_species = sum(species_observed, na.rm = TRUE),\n    prop_checklists = checklists_with_species / total_checklists,\n    .groups = \"drop\"\n  )\n\n# Save checklists in Simpcw\nwrite_csv(summary_df, \"Outputs/simpcw_checklists_final_all.csv\")\n\nAs outlined in the Protected Areas chapter, this spatial file includes all protected areas from the Canadian Protected and Conserved Areas Database (CPCAD) with the exception of Old Growth Management Areas and Wildlife Habitat Areas.\n\n# Load in protected areas \nprotected_areas &lt;- st_read(\"Outputs/cropped.gpkg\")\n\nReading layer `cropped' from data source `E:\\Matt and Mia\\Outputs\\cropped.gpkg' using driver `GPKG'\nSimple feature collection with 63 features and 5 fields\nGeometry type: MULTIPOLYGON\nDimension:     XY\nBounding box:  xmin: -1681569 ymin: 1509088 xmax: -1429148 ymax: 1855075\nProjected CRS: Canada_Albers_Equal_Area_Conic\n\n# Make geometries valid\nprotected_areas &lt;- st_make_valid(protected_areas)\n\n# Match CRS of full_sf and protected_areas to data_sf\nfull_sf_test &lt;- st_transform(full_sf, st_crs(data_sf))\nprotected_areas &lt;- st_transform(protected_areas, st_crs(data_sf))\n\n# Add column for checklists within protected areas (TRUE/FALSE)\nfull_sf &lt;- full_sf %&gt;%\n  mutate(in_protected_area = lengths(st_within(geometry, protected_areas)) &gt; 0)\n\n# Summarize checklists within and outside protected areas\nprotected_summary &lt;- full_sf %&gt;%\n  st_drop_geometry() %&gt;%\n  group_by(common_name, year, in_protected_area) %&gt;%\n  summarize(\n    total_checklists = n_distinct(checklist_id),\n    checklists_with_species = sum(species_observed, na.rm = TRUE),\n    prop_checklists = checklists_with_species / total_checklists,\n    .groups = \"drop\"\n  )\n\n# Save checklists in and outside of Protected Areas within Simpcw\nwrite_csv(protected_summary, \"Outputs/protected_areas_checklists_final_all.csv\")",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>eBird Data Handling</span>"
+    ]
+  },
+  {
+    "objectID": "eBird_Introduction.html#data-outputs",
+    "href": "eBird_Introduction.html#data-outputs",
+    "title": "3  eBird Data Handling",
+    "section": "3.9 Data Outputs",
+    "text": "3.9 Data Outputs\n\nfull_simpcw_final_all.csv: Intermediate file of filtered and zero-filled eBird data\nsimpcw_checklists_final_all.csv: Summarized checklists of Presence/Absence in Simpcw territory per year\nprotected_areas_checklists_final_all.csv: Summarized checklists of Presence/Absence in protected areas per year",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>eBird Data Handling</span>"
+    ]
+  },
+  {
+    "objectID": "Mapping_eBird.html",
+    "href": "Mapping_eBird.html",
+    "title": "4  Checklist Data Mapping",
+    "section": "",
+    "text": "4.1 Data inputs\nSpecies with fewer than 100 checklists were omitted from mapping due to limited data availability. I recommend excluding these species from further analyses as well. However, the complete raw dataset is still provided for transparency and reference.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Checklist Data Mapping</span>"
+    ]
+  },
+  {
+    "objectID": "Mapping_eBird.html#data-inputs",
+    "href": "Mapping_eBird.html#data-inputs",
+    "title": "4  Checklist Data Mapping",
+    "section": "",
+    "text": "eBird Data: full_simpcw_final_all.csv\nSimpcw Territory Boundary: doc.kml\nProtected Areas: cropped.gpkg",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Checklist Data Mapping</span>"
+    ]
+  },
+  {
+    "objectID": "Mapping_eBird.html#setup",
+    "href": "Mapping_eBird.html#setup",
+    "title": "4  Checklist Data Mapping",
+    "section": "4.2 Setup",
+    "text": "4.2 Setup\n\nlibrary(tidyverse)\nlibrary(sf)\nlibrary(rnaturalearth)\n\n# Load in eBird data\nfull &lt;- read_csv(\"full_simpcw_final_all.csv\")\n\n# Load in protected areas \nprotected_areas &lt;- st_read(\"Outputs/cropped.gpkg\")\n\nReading layer `cropped' from data source `E:\\Matt and Mia\\Outputs\\cropped.gpkg' using driver `GPKG'\nSimple feature collection with 63 features and 5 fields\nGeometry type: MULTIPOLYGON\nDimension:     XY\nBounding box:  xmin: -1681569 ymin: 1509088 xmax: -1429148 ymax: 1855075\nProjected CRS: Canada_Albers_Equal_Area_Conic\n\nprotected_areas &lt;- st_make_valid(protected_areas)\n\n# Load Simpcw territory .kml in\ndata_sf &lt;- st_read(\"Spatial Data/doc.kml\")\n\nReading layer `SFN_TT' from data source `E:\\Matt and Mia\\Spatial Data\\doc.kml' using driver `KML'\nSimple feature collection with 1 feature and 2 fields\nGeometry type: POLYGON\nDimension:     XYZ\nBounding box:  xmin: -121.0515 ymin: 50.90655 xmax: -117.6642 ymax: 54.2691\nz_range:       zmin: 0 zmax: 0\nGeodetic CRS:  WGS 84",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Checklist Data Mapping</span>"
+    ]
+  },
+  {
+    "objectID": "Mapping_eBird.html#data-handling",
+    "href": "Mapping_eBird.html#data-handling",
+    "title": "4  Checklist Data Mapping",
+    "section": "4.3 Data Handling",
+    "text": "4.3 Data Handling\nWe transform the eBird dataset into a spatial object, filter records within the Simpcw territory, and remove species with less than 100 checklists between 2010–2025.\n\n# Transform into sf data\nfull_sf &lt;- full %&gt;%\n  st_as_sf(coords = c(\"longitude\", \"latitude\"), crs = 4326) %&gt;%\n  st_transform(st_crs(data_sf))  \n\n# Get species within Simpcw\nfull_sf &lt;- full_sf %&gt;%\n  mutate(in_territory = st_within(geometry, data_sf, sparse = FALSE)[, 1]) %&gt;%\n  filter(in_territory) \n\nst_as_s2(): dropping Z and/or M coordinate\n\n# Match CRS of full_sf and protected_areas to data_sf\nfull_sf_test &lt;- st_transform(full_sf, st_crs(data_sf))\nprotected_areas &lt;- st_transform(protected_areas, st_crs(data_sf))\n\n# Add column for checklists within protected areas (TRUE/FALSE)\nfull_sf &lt;- full_sf %&gt;%\n  mutate(in_protected_area = lengths(st_within(geometry, protected_areas)) &gt; 0)\n\n# Remove species that had very little data\nremove_species &lt;- c(\n  \"Black-chinned Hummingbird\",\n  \"Red-breasted Sapsucker\",\n  \"Northern House Wren\",\n  \"Western Meadowlark\",\n  \"Rock Wren\",\n  \"Golden Eagle\",\n  \"Northern Pygmy-Owl\",\n  \"Great Horned Owl\"\n  )\n\nobserved_sf &lt;- full_sf %&gt;%\n  filter(species_observed == TRUE) %&gt;% \n  filter(!common_name %in% remove_species)",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Checklist Data Mapping</span>"
+    ]
+  },
+  {
+    "objectID": "Mapping_eBird.html#mapping-observations",
+    "href": "Mapping_eBird.html#mapping-observations",
+    "title": "4  Checklist Data Mapping",
+    "section": "4.4 Mapping Observations",
+    "text": "4.4 Mapping Observations\nWe now map the remaining species.\nNotes\n\nSpecies with fewer than 100 checklists were excluded\nProtected areas are shaded in green\nObservation points are colored by whether they fall inside or outside protected areas\n\n\n# Wrap long species names for facet labels\nobserved_sf &lt;- observed_sf %&gt;%\n  mutate(common_name_wrapped = case_when(\n    common_name == \"Black-capped Chickadee\" ~ \"Black-capped \\nChickadee\",\n    common_name == \"Common Raven\" ~ \"Common \\nRaven\",\n    common_name == \"Mountain Chickadee\" ~ \"Mountain \\nChickadee\",\n    common_name == \"Pileated Woodpecker\" ~ \"Pileated \\nWoodpecker\",\n    common_name == \"Red-naped Sapsucker\" ~ \"Red-naped \\nSapsucker\",\n    common_name == \"Rufous Hummingbird\" ~ \"Rufous \\nHummingbird\",\n    TRUE ~ common_name\n  ))\n\n# Plot\nggplot(data = observed_sf) +\n  geom_sf(data = data_sf, fill = \"grey90\", color = \"black\", inherit.aes = FALSE) +\n  geom_sf(data = protected_areas, aes(fill = \"Protected Area\"), color = NA, alpha = 0.3, inherit.aes = FALSE) +\n  geom_sf(aes(color = factor(in_protected_area)), size = 1) +\n  facet_wrap(~ common_name_wrapped, ncol = 3) +\n  scale_color_manual(\n    values = c(\"TRUE\" = \"#00bfc4\", \"FALSE\" = \"#f8766d\"),\n    labels = c(\"TRUE\" = \"Inside Protected Area\", \"FALSE\" = \"Outside Protected Area\"),\n    name = NULL\n    ) +\n  scale_fill_manual(\n    values = c(\"Protected Area\" = \"darkgreen\"),\n    name = NULL\n  ) +\n  scale_x_continuous(breaks = seq(-120, -115, by = 2)) +\n  scale_y_continuous(breaks = seq(51, 54, by = 1)) +   # Adjust as needed\n  labs(\n    title = \"Checklists with Species Presence in Simpcw Territory (2010–2025)\",\n    x = \"Longitude\",\n    y = \"Latitude\"\n  ) +\n  theme_minimal()",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Checklist Data Mapping</span>"
+    ]
+  },
+  {
+    "objectID": "Mapping_eBird.html#outputs",
+    "href": "Mapping_eBird.html#outputs",
+    "title": "4  Checklist Data Mapping",
+    "section": "4.5 Outputs",
+    "text": "4.5 Outputs\n\neBird Checklist Plot.pdf",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Checklist Data Mapping</span>"
+    ]
+  },
+  {
+    "objectID": "eBird_Trend_Data.html",
+    "href": "eBird_Trend_Data.html",
+    "title": "5  Trend Data Mapping",
+    "section": "",
+    "text": "5.1 eBird Trends Information\nAll species are included here with the exception of Common Loon (only non-breeding data available, and the species does not overwinter in Simpcw Territory). This data may still help infer overall trends even where checklist data were limited.\nNote that trend periods differ among species — some reflect breeding-season trends, while others reflect year-round trends.\nCode is provided below to optionally filter to breeding-season species only (for comparison with checklist data) or to the specific checklist species set used in other analyses.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Trend Data Mapping</span>"
+    ]
+  },
+  {
+    "objectID": "eBird_Trend_Data.html#data-inputs",
+    "href": "eBird_Trend_Data.html#data-inputs",
+    "title": "5  Trend Data Mapping",
+    "section": "5.2 Data inputs",
+    "text": "5.2 Data inputs\n\nMaster Trend Data: Master_list.csv\nSimpcw Territory Boundary: doc.kml\nSpecies Trends: _ebird-trends_2022.gpkg",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Trend Data Mapping</span>"
+    ]
+  },
+  {
+    "objectID": "eBird_Trend_Data.html#setup",
+    "href": "eBird_Trend_Data.html#setup",
+    "title": "5  Trend Data Mapping",
+    "section": "5.3 Setup",
+    "text": "5.3 Setup\n\nlibrary(tidyverse)\nlibrary(sf)\nlibrary(rnaturalearth)\nlibrary(RColorBrewer)\n\n# Load unzipped territory .kml in\nkml_file &lt;- \"Spatial Data/doc.kml\"\ndata_sf &lt;- st_read(kml_file)\n\nReading layer `SFN_TT' from data source `E:\\Matt and Mia\\Spatial Data\\doc.kml' using driver `KML'\nSimple feature collection with 1 feature and 2 fields\nGeometry type: POLYGON\nDimension:     XYZ\nBounding box:  xmin: -121.0515 ymin: 50.90655 xmax: -117.6642 ymax: 54.2691\nz_range:       zmin: 0 zmax: 0\nGeodetic CRS:  WGS 84\n\n# Load master trend data in\nmaster &lt;- read_csv(\"Species Data/Master_list.csv\")\n\n# Get Canada outline\ncanada &lt;- ne_states(country = \"Canada\", returnclass = \"sf\")\n\n# Set CRS \ncrs_target &lt;- st_crs(data_sf)\ncanada_proj &lt;- st_transform(canada, crs_target)",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Trend Data Mapping</span>"
+    ]
+  },
+  {
+    "objectID": "eBird_Trend_Data.html#call-in-files-and-clean-data",
+    "href": "eBird_Trend_Data.html#call-in-files-and-clean-data",
+    "title": "5  Trend Data Mapping",
+    "section": "5.4 Call in files and clean data",
+    "text": "5.4 Call in files and clean data\n\n# Load species files and assign names\nspecies_files &lt;- tibble(\n  species = c(\"American Crow\", \"Bald Eagle\", \"Black-capped Chickadee\", \"Common Raven\", \n              \"Golden Eagle\", \"Great-horned Owl\", \"Marsh Wren\", \"Mountain Chickadee\", \"Rufous Hummingbird\",\"Steller's Jay\", \"Western Meadowlark\", \"Northern Flicker\", \"Northern Pygmy-Owl\", \"Pacific Wren\", \"Pileated Woodpecker\", \"Red-naped Sapsucker\"),\n  path = c(\n    \"Species Data/amecro_ebird-trends_2022/amecro_breeding_ebird-trends_2022.gpkg\",\n    \"Species Data/baleag_ebird-trends_2022/baleag_breeding_ebird-trends_2022.gpkg\",\n    \"Species Data/bkcchi_ebird-trends_2022/bkcchi_resident_ebird-trends_2022.gpkg\", \n    \"Species Data/comrav_ebird-trends_2022/comrav_resident_ebird-trends_2022.gpkg\",\n    \"Species Data/goleag_ebird-trends_2022/goleag_breeding_ebird-trends_2022.gpkg\",\n    \"Species Data/grhowl_ebird-trends_2022/grhowl_resident_ebird-trends_2022.gpkg\",\n    \"Species Data/marwre_ebird-trends_2022/marwre_breeding_ebird-trends_2022.gpkg\",\n    \"Species Data/mouchi_ebird-trends_2022/mouchi_breeding_ebird-trends_2022.gpkg\",\n    \"Species Data/rufhum_ebird-trends_2022/rufhum_breeding_ebird-trends_2022.gpkg\",\n    \"Species Data/stejay_ebird-trends_2022/stejay_resident_ebird-trends_2022.gpkg\",\n    \"Species Data/wesmea_ebird-trends_2022/wesmea_breeding_ebird-trends_2022.gpkg\",\n    \"Species Data/norfli_ebird-trends_2022/norfli_breeding_ebird-trends_2022.gpkg\",\n    \"Species Data/nopowl_ebird-trends_2022/nopowl_resident_ebird-trends_2022.gpkg\",\n    \"Species Data/pacwre1_ebird-trends_2022/pacwre1_breeding_ebird-trends_2022.gpkg\",\n    \"Species Data/pilwoo_ebird-trends_2022/pilwoo_resident_ebird-trends_2022.gpkg\",\n    \"Species Data/rensap_ebird-trends_2022/rensap_breeding_ebird-trends_2022.gpkg\"\n  )\n)\n\nspecies_files &lt;- species_files %&gt;%\n  left_join(master, by = c(\"species\" = \"Species\"))\n\n# Load, clip, and transform all species trend points; \n# then join each point with its species' Trend Period and create a combined label for plotting\nall_species &lt;- species_files %&gt;%\n  mutate(data = map2(path, species, ~ {\n    dat &lt;- st_read(.x, quiet = TRUE)\n    clipped &lt;- st_intersection(dat, data_sf)\n    clipped$species &lt;- .y\n    st_transform(clipped, crs_target)\n  })) %&gt;%\n  pull(data) %&gt;%\n  bind_rows() %&gt;%\n  left_join(species_files %&gt;% select(species, `Trend Period`), by = \"species\") %&gt;%\n  mutate(\n    species_label = paste0(str_wrap(species, width = 16), \"\\n\", `Trend Period`)\n  )\n\n# Save trend data as .gpkg\nout_file &lt;- \"Outputs/all_species_trend_points.gpkg\"\n\nif (!file.exists(out_file)) {\n  st_write(all_species, out_file)\n} else {\n  message(\"File already exists. Skipping write.\")\n}",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Trend Data Mapping</span>"
+    ]
+  },
+  {
+    "objectID": "eBird_Trend_Data.html#plot-trend-data",
+    "href": "eBird_Trend_Data.html#plot-trend-data",
+    "title": "5  Trend Data Mapping",
+    "section": "5.5 Plot trend data",
+    "text": "5.5 Plot trend data\nSome trend values are very close to zero, which can make them appear faint on the map. This is normal given the distribution of values. If the points are difficult to see, you can transform the data using a pseudolog scale to enhance visibility.\n\n# Set bounding box and expand for visibility\nbbox &lt;- st_bbox(data_sf)\nexpand_factor &lt;- 0.3\nbbox_expanded &lt;- bbox\nbbox_expanded[\"xmin\"] &lt;- bbox[\"xmin\"] - expand_factor\nbbox_expanded[\"xmax\"] &lt;- bbox[\"xmax\"] + expand_factor\nbbox_expanded[\"ymin\"] &lt;- bbox[\"ymin\"] - expand_factor\nbbox_expanded[\"ymax\"] &lt;- bbox[\"ymax\"] + expand_factor\n\n# Plot\nggplot() +\n  geom_sf(data = canada_proj, fill = \"white\", color = \"gray40\") +\n  geom_sf(data = data_sf, fill = \"gray95\", color = \"black\", size = 0.5, alpha = 0.5) +\n  geom_sf(data = all_species, aes(fill = abd_ppy), color = NA) +\n  facet_wrap(~ species_label, ncol = 4)  +\n  scale_fill_gradientn(\n    colors = (brewer.pal(11, \"RdBu\")),  # 11 steps\n    limits = c(-10, 10),\n    oob = scales::squish\n  ) +\n  coord_sf(\n    xlim = c(bbox_expanded[\"xmin\"], bbox_expanded[\"xmax\"]),\n    ylim = c(bbox_expanded[\"ymin\"], bbox_expanded[\"ymax\"]),\n    expand = FALSE\n  ) +\n  theme_minimal() +\n  labs(\n    title = \"Species Trends in Simpcw Territory (2012–2022)\",\n    subtitle = \"Red = Decrease, Blue = Increase, Point Size = Relative Abundance\",\n    fill = \"Trend (% per year)\"\n  ) +\n  theme(\n    panel.border = element_rect(colour = \"black\", fill = NA, linewidth = 1)\n  ) +\n  scale_x_continuous(breaks = seq(-120, -115, by = 2)) +\n  scale_y_continuous(breaks = seq(51, 54, by = 1))",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Trend Data Mapping</span>"
+    ]
+  },
+  {
+    "objectID": "eBird_Trend_Data.html#calculate-average-trends",
+    "href": "eBird_Trend_Data.html#calculate-average-trends",
+    "title": "5  Trend Data Mapping",
+    "section": "5.6 Calculate average trends",
+    "text": "5.6 Calculate average trends\n\n## Calculate average trends for all species\n# Load, clip, and summarise average trend\nspecies_means &lt;- species_files %&gt;%\n  mutate(mean_trend = map2_dbl(path, species, ~ {\n    dat &lt;- st_read(.x, quiet = TRUE)\n    clipped &lt;- st_intersection(dat, data_sf)\n    mean(clipped$abd_ppy, na.rm = TRUE)\n  }))\n\n# Join average to territory polygon \nterritory_filled &lt;- species_means %&gt;%\n  rowwise() %&gt;%\n  mutate(geometry = st_geometry(data_sf)) %&gt;%\n  st_as_sf(crs = crs_target) \n\n# Wrap labels longer than 16 letters\nterritory_filled &lt;- territory_filled %&gt;%\n  mutate(\n    species_label = paste0(str_wrap(species, width = 16), \"\\n\", `Trend Period`))",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Trend Data Mapping</span>"
+    ]
+  },
+  {
+    "objectID": "eBird_Trend_Data.html#plot-average-trend-data",
+    "href": "eBird_Trend_Data.html#plot-average-trend-data",
+    "title": "5  Trend Data Mapping",
+    "section": "5.7 Plot average trend data",
+    "text": "5.7 Plot average trend data\n\n# Plot - filled polygons\nggplot() +\n  geom_sf(data = canada_proj, fill = \"white\", color = \"gray40\") +\n  geom_sf(data = territory_filled, aes(fill = mean_trend), color = \"black\", size = 0.5, alpha = 0.75) +\n  facet_wrap(~ species_label, ncol = 4) +\n  scale_fill_gradientn(\n    colors = (brewer.pal(11, \"RdBu\")),  # 11 steps\n    limits = c(-10, 10),\n    oob = scales::squish\n  ) +\n  theme_minimal() +\n  coord_sf(\n    xlim = c(bbox_expanded[\"xmin\"], bbox_expanded[\"xmax\"]),\n    ylim = c(bbox_expanded[\"ymin\"], bbox_expanded[\"ymax\"]),\n    expand = FALSE\n  ) +\n  labs(\n    title = \"Average Species Trends in Simpcw Territory (2012–2022)\",\n    subtitle = \"Red = Decrease, Blue = Increase\",\n    fill = \"Average Trend\"\n  ) +\n  theme(\n    panel.border = element_rect(colour = \"black\", fill = NA, linewidth = 1)\n  ) +\n  scale_x_continuous(breaks = seq(-120, -115, by = 2)) +\n  scale_y_continuous(breaks = seq(51, 54, by = 1))",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Trend Data Mapping</span>"
+    ]
+  },
+  {
+    "objectID": "eBird_Trend_Data.html#optional-filtering",
+    "href": "eBird_Trend_Data.html#optional-filtering",
+    "title": "5  Trend Data Mapping",
+    "section": "5.8 Optional filtering",
+    "text": "5.8 Optional filtering\nUse these optional filters to limit the plotted species set. Copy one of the filtered objects (e.g., all_species_breeding) into the plotting chunks above to visualize just those groups.\n\n# Filter to breeding-season trends only\nall_species &lt;- all_species %&gt;% filter(`Trend Period` == \"Breeding\")\n\n# Filter to checklist species only\nchecklist_species &lt;- c(\n\"American Crow\", \"Bald Eagle\", \"Black-capped Chickadee\",\n\"Common Raven\", \"Common Loon\", \"Marsh Wren\", \"Mountain Chickadee\",\n\"Northern Flicker\", \"Pacific Wren\", \"Pileated Woodpecker\",\n\"Red-naped Sapsucker\", \"Rufous Hummingbird\", \"Steller's Jay\"\n)\nall_species &lt;- all_species %&gt;% filter(species %in% checklist_species)",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Trend Data Mapping</span>"
+    ]
+  },
+  {
+    "objectID": "eBird_Trend_Data.html#outputs",
+    "href": "eBird_Trend_Data.html#outputs",
+    "title": "5  Trend Data Mapping",
+    "section": "5.9 Outputs",
+    "text": "5.9 Outputs\n\nTrend Points Clipped: all_species_trend_points.gpkg\nTrend Plots: eBird Trend Plots.pdf\nAverage Trend Plots: Average Trend Plots.pdf",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Trend Data Mapping</span>"
+    ]
+  }
+]
