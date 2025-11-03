@@ -20,7 +20,7 @@ canada_proj <- st_transform(canada, crs_target)
 # Load species files and assign names
 species_files <- tibble(
   species = c("American Crow", "Bald Eagle", "Black-capped Chickadee", "Common Raven", 
-              "Golden Eagle", "Great-horned Owl", "Marsh Wren", "Mountain Chickadee", "Rufous Hummingbird","Steller's Jay", "Western Meadowlark", "Northern Flicker", "Northern Pygmy-owl", "Pacific Wren", "Pileated Woodpecker", "Red-naped Sapsucker"),
+              "Golden Eagle", "Great-horned Owl", "Marsh Wren", "Mountain Chickadee", "Rufous Hummingbird","Steller's Jay", "Western Meadowlark", "Northern Flicker", "Northern Pygmy-Owl", "Pacific Wren", "Pileated Woodpecker", "Red-naped Sapsucker"),
   path = c(
     "Species Data/amecro_ebird-trends_2022/amecro_breeding_ebird-trends_2022.gpkg",
     "Species Data/baleag_ebird-trends_2022/baleag_breeding_ebird-trends_2022.gpkg",
@@ -153,3 +153,4 @@ ggplot() +
   ) +
   scale_x_continuous(breaks = seq(-120, -115, by = 2)) +
   scale_y_continuous(breaks = seq(51, 54, by = 1))
+
